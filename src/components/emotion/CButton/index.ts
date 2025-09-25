@@ -1,0 +1,1 @@
+export { CButton, type CButtonProps } from './CButton'

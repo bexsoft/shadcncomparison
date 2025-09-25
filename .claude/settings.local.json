@@ -6,7 +6,9 @@
       "Bash(npm install:*)",
       "Bash(npx tailwindcss init:*)",
       "Bash(npx tailwindcss:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "mcp__figma-dev-mode-mcp-server__get_code",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
