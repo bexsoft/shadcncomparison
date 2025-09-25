@@ -5,6 +5,10 @@ import styled from '@emotion/styled'
 import { CButton as CButtonShadcn } from '@/components/shadcn/CButton'
 import { CButton as CButtonEmotion } from '@/components/emotion/CButton'
 
+// Import Table from both style systems
+import { Table as TableShadcn, type Column } from '@/components/shadcn/Table'
+import { Table as TableEmotion } from '@/components/emotion/Table'
+
 const StyledContainer = styled.div`
   padding: 2rem;
 `
@@ -57,8 +61,52 @@ const ButtonGroup = styled.div`
   align-items: center;
 `
 
+// Sample data for table demonstration
+interface SampleData {
+  id: number
+  name: string
+  email: string
+  role: string
+  status: string
+}
+
+const sampleData: SampleData[] = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Developer', status: 'Active' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'Designer', status: 'Active' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Manager', status: 'Inactive' },
+  { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Developer', status: 'Active' },
+  { id: 5, name: 'Charlie Davis', email: 'charlie@example.com', role: 'QA', status: 'Active' },
+]
+
+const columns: Column<SampleData>[] = [
+  { key: 'id', header: 'ID', sortable: true },
+  { key: 'name', header: 'Name', sortable: true },
+  { key: 'email', header: 'Email', sortable: true },
+  { key: 'role', header: 'Role', sortable: true },
+  {
+    key: 'status',
+    header: 'Status',
+    sortable: true,
+    render: (value) => (
+      <span style={{
+        padding: '4px 8px',
+        borderRadius: '4px',
+        fontSize: '12px',
+        fontWeight: 500,
+        backgroundColor: value === 'Active' ? '#10b981' : '#ef4444',
+        color: 'white'
+      }}>
+        {value}
+      </span>
+    )
+  },
+]
+
 function App() {
   const [count, setCount] = useState(0)
+  const [selectedRowsShadcn, setSelectedRowsShadcn] = useState<SampleData[]>([])
+  const [selectedRowsEmotion, setSelectedRowsEmotion] = useState<SampleData[]>([])
+  const [enableSelection, setEnableSelection] = useState(true)
 
   return (
     <StyledContainer>
@@ -127,14 +175,60 @@ function App() {
             </MatrixCell>
           </MatrixRow>
 
-          {/* Placeholder for future components */}
+          {/* Table Row */}
           <MatrixRow>
-            <MatrixCell>More Components</MatrixCell>
+            <MatrixCell>Table</MatrixCell>
             <MatrixCell>
-              <span className="text-gray-400">Coming soon...</span>
+              <div style={{ width: '100%' }}>
+                <div className="mb-2">
+                  <label className="flex items-center gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={enableSelection}
+                      onChange={(e) => setEnableSelection(e.target.checked)}
+                      className="rounded"
+                    />
+                    Enable Selection
+                  </label>
+                </div>
+                <TableShadcn
+                  data={sampleData}
+                  columns={columns}
+                  enableSelection={enableSelection}
+                  onSelectionChange={setSelectedRowsShadcn}
+                />
+                {selectedRowsShadcn.length > 0 && (
+                  <div className="mt-2 text-sm text-gray-600">
+                    Selected: {selectedRowsShadcn.map(r => r.name).join(', ')}
+                  </div>
+                )}
+              </div>
             </MatrixCell>
             <MatrixCell>
-              <span style={{ color: '#9ca3af' }}>Coming soon...</span>
+              <div style={{ width: '100%' }}>
+                <div style={{ marginBottom: '8px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
+                    <input
+                      type="checkbox"
+                      checked={enableSelection}
+                      onChange={(e) => setEnableSelection(e.target.checked)}
+                      style={{ borderRadius: '4px' }}
+                    />
+                    Enable Selection
+                  </label>
+                </div>
+                <TableEmotion
+                  data={sampleData}
+                  columns={columns}
+                  enableSelection={enableSelection}
+                  onSelectionChange={setSelectedRowsEmotion}
+                />
+                {selectedRowsEmotion.length > 0 && (
+                  <div style={{ marginTop: '8px', fontSize: '14px', color: '#4b5563' }}>
+                    Selected: {selectedRowsEmotion.map(r => r.name).join(', ')}
+                  </div>
+                )}
+              </div>
             </MatrixCell>
           </MatrixRow>
         </ComponentMatrix>
