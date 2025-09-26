@@ -9,7 +9,8 @@
       "Bash(npm run dev:*)",
       "mcp__figma-dev-mode-mcp-server__get_code",
       "Bash(git add:*)",
-      "mcp__figma-dev-mode-mcp-server__get_screenshot"
+      "mcp__figma-dev-mode-mcp-server__get_screenshot",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

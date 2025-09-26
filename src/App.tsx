@@ -9,6 +9,10 @@ import { CButton as CButtonEmotion } from '@/components/emotion/CButton'
 import { Table as TableShadcn, type Column } from '@/components/shadcn/Table'
 import { Table as TableEmotion } from '@/components/emotion/Table'
 
+// Import Toggle from both style systems
+import { Toggle as ToggleShadcn } from '@/components/shadcn/Toggle'
+import { Toggle as ToggleEmotion } from '@/components/emotion/Toggle'
+
 const StyledContainer = styled.div`
   padding: 2rem;
 `
@@ -107,6 +111,11 @@ function App() {
   const [selectedRowsShadcn, setSelectedRowsShadcn] = useState<SampleData[]>([])
   const [selectedRowsEmotion, setSelectedRowsEmotion] = useState<SampleData[]>([])
   const [enableSelection, setEnableSelection] = useState(true)
+
+  // Toggle states
+  const [toggleShadcnChecked, setToggleShadcnChecked] = useState(false)
+  const [toggleEmotionChecked, setToggleEmotionChecked] = useState(false)
+  const [toggleDisabled, setToggleDisabled] = useState(false)
 
   return (
     <StyledContainer>
@@ -228,6 +237,75 @@ function App() {
                     Selected: {selectedRowsEmotion.map(r => r.name).join(', ')}
                   </div>
                 )}
+              </div>
+            </MatrixCell>
+          </MatrixRow>
+
+          {/* Toggle Row */}
+          <MatrixRow>
+            <MatrixCell>Toggle</MatrixCell>
+            <MatrixCell>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
+                <div>
+                  <label className="flex items-center gap-2 text-sm mb-2">
+                    <input
+                      type="checkbox"
+                      checked={toggleDisabled}
+                      onChange={(e) => setToggleDisabled(e.target.checked)}
+                      className="rounded"
+                    />
+                    Disabled State
+                  </label>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">Off</span>
+                    <ToggleShadcn
+                      checked={toggleShadcnChecked}
+                      disabled={toggleDisabled}
+                      onChange={setToggleShadcnChecked}
+                      aria-label="Shadcn Toggle"
+                    />
+                    <span className="text-sm">On</span>
+                  </div>
+                </div>
+
+                <div className="text-xs text-gray-500">
+                  States: Default, Hover, Focus, Disabled
+                </div>
+              </div>
+            </MatrixCell>
+            <MatrixCell>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
+                <div>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', marginBottom: '8px' }}>
+                    <input
+                      type="checkbox"
+                      checked={toggleDisabled}
+                      onChange={(e) => setToggleDisabled(e.target.checked)}
+                      style={{ borderRadius: '4px' }}
+                    />
+                    Disabled State
+                  </label>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '14px' }}>Off</span>
+                    <ToggleEmotion
+                      checked={toggleEmotionChecked}
+                      disabled={toggleDisabled}
+                      onChange={setToggleEmotionChecked}
+                      aria-label="Emotion Toggle"
+                    />
+                    <span style={{ fontSize: '14px' }}>On</span>
+                  </div>
+                </div>
+
+                <div style={{ fontSize: '12px', color: '#6b7280' }}>
+                  States: Default, Hover, Focus, Disabled
+                </div>
               </div>
             </MatrixCell>
           </MatrixRow>
